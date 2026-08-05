@@ -1,0 +1,149 @@
+:root {
+    color-scheme: dark;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.login-page {
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    color: #f5f5f5;
+    background: #030407 url("../images/background.jpg") center / cover no-repeat fixed;
+}
+
+.login-card {
+    width: min(100%, 380px);
+    padding: 36px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 16px;
+    background: rgba(5, 7, 11, 0.78);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(12px);
+}
+
+h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+}
+
+.subtitle {
+    margin: 0 0 28px;
+    color: #b7bac1;
+}
+
+label {
+    display: block;
+    margin: 18px 0 8px;
+    font-size: 14px;
+}
+
+input:not([type="hidden"]) {
+    width: 100%;
+    height: 48px;
+    padding: 0 13px;
+    border: 1px solid #4a4c53;
+    border-radius: 8px;
+    outline: none;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+    font: inherit;
+}
+
+input:not([type="hidden"]):focus {
+    border-color: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.16);
+}
+
+button {
+    height: 48px;
+    border: 0;
+    border-radius: 8px;
+    color: #111;
+    background: #fff;
+    font: 700 15px Arial, Helvetica, sans-serif;
+    cursor: pointer;
+}
+
+.login-card button {
+    width: 100%;
+    margin-top: 24px;
+}
+
+button:hover {
+    background: #dedede;
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.message {
+    margin: 0 0 6px;
+    padding: 11px 12px;
+    border: 1px solid #a94848;
+    border-radius: 8px;
+    color: #ffd8d8;
+    background: rgba(120, 20, 20, 0.55);
+    font-size: 13px;
+}
+
+.dashboard-page {
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    color: #080808;
+    background: #fff;
+}
+
+.dashboard-page::before {
+    position: fixed;
+    inset: 0;
+    content: "";
+    background: url("../images/background.jpg") center / cover no-repeat;
+    filter: invert(1) grayscale(1);
+    opacity: 0.23;
+}
+
+.welcome {
+    position: relative;
+    font-size: clamp(72px, 14vw, 200px);
+    font-weight: 700;
+    letter-spacing: -0.07em;
+    text-align: center;
+}
+
+.logout-form {
+    position: fixed;
+    z-index: 1;
+    top: 24px;
+    right: 24px;
+}
+
+.logout-form button {
+    min-width: 100px;
+    border: 1px solid #111;
+    color: #fff;
+    background: #111;
+}
+
+.logout-form button:hover {
+    color: #111;
+    background: #fff;
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 28px 22px;
+    }
+}
