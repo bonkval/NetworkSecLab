@@ -1,32 +1,14 @@
 <!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sign in</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Network Security Lab · Access</title><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
 <body class="login-page">
-    <main class="login-card">
-        <h1>Sign in</h1>
-        <p class="subtitle">Enter your account details</p>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% for category, message in messages %}
-                <div class="message {{ category }}" role="alert">{{ message }}</div>
-            {% endfor %}
-        {% endwith %}
-
-        <form action="{{ url_for('login') }}" method="post">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" autocomplete="username" placeholder="you@example.com" maxlength="254" required autofocus>
-
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Password" maxlength="256" required>
-
-            <button type="submit">Login</button>
-        </form>
-    </main>
-</body>
-</html>
+<main class="auth-shell">
+    <section class="auth-intro"><span class="owner-label">CED VALES · PORTFOLIO PROJECT</span><h1>Network<br>Security Lab</h1><p>A hands-on environment for network telemetry, authentication monitoring, and guarded device automation.</p><div class="auth-feature-list"><span><b>01</b> SNMP trap inspection</span><span><b>02</b> Brute-force detection</span><span><b>03</b> Configuration safety</span></div></section>
+    <section class="auth-panel">
+        <div class="auth-tabs" role="tablist"><button type="button" data-auth-tab="login" class="{{ 'active' if request.args.get('mode') != 'register' else '' }}">Sign in</button><button type="button" data-auth-tab="register" class="{{ 'active' if request.args.get('mode') == 'register' else '' }}">Create account</button></div>
+        {% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="message {{ category }}" role="alert">{{ message }}</div>{% endfor %}{% endwith %}
+        <div class="auth-form-view {{ 'active' if request.args.get('mode') != 'register' else '' }}" id="login-view"><p class="eyebrow">WELCOME BACK</p><h2>Sign in to your workspace</h2><p class="subtitle">Use the demo account or your registered account.</p><form action="{{ url_for('login') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Email address</label><input name="email" type="email" autocomplete="username" placeholder="you@example.com" maxlength="254" required><label>Password</label><input name="password" type="password" autocomplete="current-password" placeholder="Your password" maxlength="256" required><button>Sign in</button></form><div class="demo-credentials"><span>Demo access</span><code>ced@gmail.com</code><code>12345</code></div></div>
+        <div class="auth-form-view {{ 'active' if request.args.get('mode') == 'register' else '' }}" id="register-view"><p class="eyebrow">LOCAL ACCOUNT</p><h2>Create your workspace account</h2><p class="subtitle">No email verification or third-party connection required.</p><form action="{{ url_for('register') }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>Full name</label><input name="full_name" type="text" autocomplete="name" placeholder="Your name" minlength="2" maxlength="80" required><label>Email address</label><input name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="254" required><label>Password</label><input name="password" type="password" autocomplete="new-password" placeholder="At least 8 characters" minlength="8" maxlength="256" required><button>Create account</button></form><p class="privacy-note">Accounts stay in this project’s local SQLite database.</p></div>
+    </section>
+</main>
+<script>document.querySelectorAll('[data-auth-tab]').forEach(button=>button.addEventListener('click',()=>{document.querySelectorAll('[data-auth-tab]').forEach(item=>item.classList.toggle('active',item===button));document.querySelectorAll('.auth-form-view').forEach(view=>view.classList.toggle('active',view.id===button.dataset.authTab+'-view'))}));</script>
+</body></html>

@@ -1,0 +1,17 @@
+{
+  "devices": [
+    {
+      "name": "access-switch-01",
+      "host": "192.0.2.10",
+      "port": 22,
+      "username": "automation",
+      "password_env": "SWITCH_01_PASSWORD",
+      "commands": [
+        "interface GigabitEthernet1/0/10",
+        "description Managed by network automation",
+        "switchport access vlan 20",
+        "no shutdown"
+      ]
+    }
+  ]
+}

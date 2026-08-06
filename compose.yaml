@@ -1,0 +1,17 @@
+services:
+  netguard:
+    build: .
+    ports:
+      - "5000:5000"
+      - "1162:1162/udp"
+    environment:
+      PORTAL_SECRET_KEY: ${PORTAL_SECRET_KEY:-local-docker-demo-change-me}
+      SNMP_PORT: "1162"
+      SNMP_HOST: "0.0.0.0"
+      NETGUARD_HOST: "0.0.0.0"
+      SNMP_COMMUNITY: ${SNMP_COMMUNITY:-public}
+    volumes:
+      - netguard-data:/app/app/database
+      - ./logs:/app/logs
+volumes:
+  netguard-data:

@@ -3,3 +3,11 @@ __pycache__/
 *.py[cod]
 app/database/*.db
 logs/*.log
+backups/
+config/devices.json
+logs/snmp_traps.jsonl
+.env
+.coverage
+htmlcov/
+.pytest_cache/
+app/database/events.db

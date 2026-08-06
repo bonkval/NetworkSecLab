@@ -1,0 +1,16 @@
+[project]
+name = "python-network-security-lab"
+version = "1.0.0"
+description = "Network configuration, SNMP telemetry, and authentication incident monitoring"
+requires-python = ">=3.11"
+dependencies = ["Flask>=3.1,<4", "paramiko>=3.5,<5", "waitress>=3.0,<4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.coverage.run]
+source = ["app", "monitor", "network", "security"]
