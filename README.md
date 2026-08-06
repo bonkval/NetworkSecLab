@@ -156,5 +156,3 @@ The dashboard is exposed on TCP 5000 and the receiver on UDP 1162. Persistent da
 ## Production limitations
 
 This remains an educational system. Before production use, add a maintained SNMPv3 receiver for authenticated and encrypted telemetry, vendor-tested configuration drivers with command-result validation and rollback, centralized secret management, TLS through a reverse proxy, user roles, retention policies, rate limiting, and an external database. SNMP v1/v2c community strings travel in plaintext even though this project does not persist them.
-
-Do not expose the demo credentials or weak default secret to the internet.
