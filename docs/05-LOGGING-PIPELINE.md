@@ -1,5 +1,7 @@
 # The File-Based Event Pipeline
 
+> Scope: this lesson covers the original append-only authentication log used by the standalone viewer and alarm detector. The web dashboard additionally persists normalized events in SQLite and writes redacted SNMP audit records as JSON Lines.
+
 ## Why use a file
 
 The log file is a simple local communication channel. The web server is a producer. The viewer and detector are independent consumers.

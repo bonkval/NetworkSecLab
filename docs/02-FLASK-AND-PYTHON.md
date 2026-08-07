@@ -1,5 +1,7 @@
 # Python and Flask, Function by Function
 
+> Scope: this lesson explains the authentication foundation inside the current application. The app factory now also registers event, simulation, configuration, detection, incident, evidence, and reporting routes; see [the learning-path overview](00-LEARNING-PATH.md) and [end-to-end flows](08-END-TO-END-FLOWS.md) for the expanded system.
+
 This lesson explains [app/__init__.py](../app/__init__.py).
 
 ## Imports

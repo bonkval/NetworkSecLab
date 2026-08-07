@@ -1,5 +1,7 @@
 # The Detector and Sliding Time Window
 
+> Scope: this lesson explains the standalone five-attempt sliding-window detector. The integrated `security/engine.py` also correlates password spraying, credential stuffing, distributed attacks, and Suricata alerts into incidents.
+
 ## Parsing events with a regular expression
 
 `EVENT_PATTERN` defines the exact accepted line format. Named groups capture values:

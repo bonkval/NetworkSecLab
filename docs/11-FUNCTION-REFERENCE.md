@@ -1,24 +1,24 @@
-# Complete Function Reference
+# Core Function Reference
 
-This is a searchable inventory of every function and method defined by the project. Read the earlier lessons for deeper concepts.
+This is a guided reference for the project's core entry points and learning-oriented monitor functions. The application has grown beyond the original authentication proof of concept; use `rg "^(def|    def) " app monitor network security start.py` when an exhaustive symbol inventory is needed. Read the earlier lessons for deeper concepts.
 
 ## `server.py`
 
-`server.py` defines no functions. It imports `create_app`, calls it, stores the returned Flask instance in `app`, and calls `app.run(...)` only when executed directly.
+`server.py` defines no functions. It imports `create_app`, constructs the application, and serves it with Waitress using the configured host and port.
 
 ## `app/__init__.py`
 
 ### `database_connection()`
 
-- Parameters: none.
+- Parameters: optional database path.
 - Returns: an open `sqlite3.Connection`.
 - Side effects: opens or creates the database file.
-- Called by: `initialize_database()` and `login()`.
+- Called by: `initialize_database()`, authentication routes, and account registration.
 - Important detail: configures rows so columns can be accessed by name.
 
 ### `initialize_database() -> None`
 
-- Parameters: none.
+- Parameters: optional database path.
 - Returns: nothing useful.
 - Side effects: creates the database directory, creates the `users` table, and inserts the demo user if absent.
 - Called by: `create_app()` during startup.
@@ -51,7 +51,7 @@ This is a searchable inventory of every function and method defined by the proje
 - Parameters: route function to protect.
 - Returns: a wrapped route function.
 - Side effects: none when defined; redirects anonymous requests when invoked.
-- Applied to: `dashboard()` and `logout()`.
+- Applied to dashboard, event, simulation, configuration, incident, evidence, detection, report, and logout routes.
 
 ### `wrapped(*args, **kwargs)`
 
@@ -73,8 +73,8 @@ This is a searchable inventory of every function and method defined by the proje
 - Parameters: optional configuration dictionary used mainly by tests.
 - Returns: fully configured Flask application.
 - Side effects: initializes database/log storage and registers routes.
-- Called by: `server.py`.
-- Contains: the four route functions below.
+- Called by: `server.py`, `start.py`, and tests.
+- Contains authentication, dashboard, event, simulation, ingestion, configuration, incident, evidence, report, and detection-rule routes.
 
 ### `login_page()`
 
@@ -102,6 +102,21 @@ This is a searchable inventory of every function and method defined by the proje
 - Returns: HTTP 303 redirect.
 - Side effects: clears session after CSRF validation.
 - Protection: `@login_required`.
+
+## Current application modules
+
+The following modules contain the features added after the original authentication walkthrough:
+
+- `app/store.py`: `EventStore` initializes the event/incident schema and provides event pagination, twelve-hour timeline buckets, retention deletion, configuration jobs, rule state, incidents, activity, and SHA-256 evidence records.
+- `app/services.py`: `SnmpService.start()` owns the background receiver thread; `_run()` accepts UDP datagrams, decodes allowed traps, writes redacted JSONL, and persists events; `status()` reports whether the socket is ready and which port it uses.
+- `security/engine.py`: `DetectionEngine.correlate_credentials()` evaluates brute-force, spraying, stuffing, and distributed patterns; `create_incident()` persists matched evidence and response guidance.
+- `network/simulator.py`: builds BER/TLV values, encodes SNMP v2c traps, and sends them over UDP.
+- `network/snmp_traps.py`: parses BER data, decodes OIDs and values, classifies traps, redacts audit output, and runs the standalone receiver.
+- `network/configurator.py`: validates inventory, creates dry-run previews, requires a configuration backup, and performs explicitly authorized SSH changes.
+- `app/alerts.py`: sends console notifications and optional generic webhooks without coupling detection logic to a vendor.
+- `start.py`: hashes dependency inputs, prepares `.venv`, initializes the app, and starts the one-command demonstration.
+
+The route functions nested in `create_app()` expose these capabilities through `/api/events`, `/api/simulate/*`, `/api/ingest/suricata`, `/api/config/*`, `/incidents`, `/api/incidents/*`, `/api/evidence/*`, and `/api/detections/*`.
 
 ## `monitor/common.py`
 

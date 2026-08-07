@@ -1,5 +1,7 @@
 # SQLite, Authentication, Sessions, and CSRF
 
+> Scope: this lesson focuses on the user database and authentication boundary. The current project also has a separate event database for detections, incidents, evidence, rules, and configuration jobs.
+
 ## SQLite
 
 SQLite stores a relational database in one local file: `app/database/users.db`. It does not require a separate database server.

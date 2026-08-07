@@ -1,5 +1,7 @@
 # Debugging, Exercises, and Next Steps
 
+> Scope: retain the authentication exercises below, then use the current dashboard labs, Suricata importer, incident workflow, and UDP integration tests for the expanded project.
+
 ## A debugging method
 
 When something fails, identify the layer before changing code:

@@ -2,17 +2,16 @@
 
 ## Startup
 
-### Web server
+### One-command lab
 
 ```text
-python server.py
-  -> import create_app
-  -> create Flask object
-  -> create database directory/table if missing
-  -> insert demo user if missing
-  -> create log directory/file if missing
-  -> register routes
-  -> listen on 127.0.0.1:5000
+python start.py
+  -> create .venv when missing
+  -> install dependencies only when requirements change
+  -> initialize user and event databases
+  -> start the managed SNMP receiver on UDP 1162
+  -> serve Flask through Waitress on TCP 5000
+  -> print the local dashboard address
 ```
 
 ### Viewer and detector
@@ -30,8 +29,9 @@ Browser GET /
   -> Flask signs session cookie
   -> browser receives HTML and cookie
   -> browser requests style.css
-  -> browser requests background.jpg
-  -> browser draws login form
+  -> browser requests theme.js and style.css
+  -> theme.js restores saved/system theme preference
+  -> browser draws login form and theme control
 ```
 
 ## Malformed email
@@ -124,6 +124,51 @@ GET /dashboard
 ```
 
 Hiding a link would not be security. The server-side decorator is what enforces access.
+
+## Dashboard refresh and signal field
+
+```text
+Browser GET /api/events?page=1&per_page=10
+  -> login_required validates the session
+  -> EventStore returns one page of normalized events
+  -> EventStore calculates severity totals and twelve hourly buckets
+  -> SnmpService reports receiver state and UDP port
+  -> browser renders wrapped event rows
+  -> browser renders hourly intensity cells
+  -> browser derives posture, signal pressure, and next action
+  -> refresh repeats every two seconds
+```
+
+`SNMP online · UDP 1162` therefore means the receiver thread has successfully bound the socket. It is not an inferred health value or decorative label.
+
+## SNMP walkthrough
+
+```text
+POST /api/simulate/trap
+  -> validate CSRF and requested trap kind
+  -> encode an SNMP v2c BER packet
+  -> send a real localhost UDP datagram to port 1162
+  -> receiver validates the allowed community
+  -> decode trap OID and varbinds
+  -> classify severity
+  -> persist normalized event and redacted JSONL audit record
+  -> return safe packet evidence to the walkthrough
+```
+
+The community value travels in the SNMP v1/v2c packet but is omitted from stored audit output and redacted in the interface.
+
+## Theme change
+
+```text
+User selects Light or Dark
+  -> theme.js calculates the toggle's screen position
+  -> set data-theme on the document root
+  -> save preference in localStorage
+  -> reveal the new theme radially when supported
+  -> otherwise use the color-fade fallback
+```
+
+If the operating system requests reduced motion, the decorative transition is skipped.
 
 ## Logout
 

@@ -79,7 +79,7 @@ Examples:
 - `body` selects every body element.
 - `.login-card` selects elements whose class includes `login-card`.
 - `button:hover` selects a button while the pointer is over it.
-- `.dashboard-page::before` creates a pseudo-element.
+- `.operations-page::before` creates the fixed grid background.
 - `input:not([type="hidden"])` selects inputs except hidden inputs.
 
 ## The box model
@@ -106,26 +106,29 @@ With `border-box`, a declared width includes padding and border.
 
 CSS Grid turns the body into a grid container. `place-items: center` centers the single card horizontally and vertically. `100vh` is 100 percent of the viewport height.
 
-## Background shorthand
+## Design tokens and themes
+
+The stylesheet uses custom properties instead of duplicating every shared color:
 
 ```css
-background: #030407 url("../images/background.jpg") center / cover no-repeat fixed;
+:root {
+    --page: #111315;
+    --surface: #191c1f;
+    --text: #f1f2f3;
+    --line: #30353a;
+}
+
+html[data-theme="light"] {
+    --page: #f3f1ea;
+    --surface: #fcfbf7;
+    --text: #202422;
+    --line: #d7d4ca;
+}
 ```
 
-This combines:
+`theme.js` chooses a saved preference or the operating-system preference, sets `data-theme`, and stores later changes in `localStorage`. Supported browsers reveal the new theme as a radial wave from the toggle. The fallback fades theme-sensitive properties, and `prefers-reduced-motion` disables decorative motion when requested by the user.
 
-- A fallback color
-- An image URL relative to the CSS file
-- Centered positioning
-- `cover` sizing so the image fills the viewport
-- No tiling
-- A fixed background during scrolling
-
-From `app/static/css/style.css`, `../images/` means go up from `css` to `static`, then into `images`.
-
-## The glass card
-
-`rgba(5, 7, 11, 0.78)` is nearly black with 78% opacity. `backdrop-filter: blur(12px)` blurs what appears behind the card. `box-shadow` creates depth. These properties affect appearance only; the form remains normal HTML.
+Theme-specific rules cover interaction states as well as page backgrounds. Event-row hover colors, warning and danger states, code panels, lab progress, and switches each receive a light-mode treatment so dark surfaces do not leak into the light interface.
 
 ## Responsive sizing functions
 
@@ -136,29 +139,25 @@ font-size: clamp(72px, 14vw, 200px);
 
 `min()` chooses the smaller value, so the card never exceeds 380 px but can shrink on small screens. `clamp(minimum, preferred, maximum)` keeps the welcome text between 72 px and 200 px while allowing viewport-based scaling.
 
-## Creating the white wave page
+## The signal field and analyst brief
 
-The dashboard reuses the same image in a pseudo-element:
+The dashboard does not depend on a chart library. JavaScript converts the twelve hourly API buckets into a semantic grid. Each critical, warning, or informational cell receives an intensity value through the `--level` CSS property. The current hour receives a separate marker.
 
-```css
-.dashboard-page::before {
-    filter: invert(1) grayscale(1);
-    opacity: 0.23;
-}
-```
+The analyst brief derives a posture from the same response. It updates the posture label, pressure dial, explanation, and suggested next action. These are presentation aids rather than a replacement for the underlying event evidence.
 
-`invert(1)` reverses colors; `grayscale(1)` removes color; low opacity blends it into the white background. This avoids storing a duplicate image.
+## Event-stream layout
 
-## Layering
+The event table uses `table-layout: fixed` with explicit proportional columns. Cells use `overflow-wrap: anywhere` and normal whitespace, allowing long sources and messages to wrap instead of widening the entire page. On narrower screens, padding and label sizes shrink while the data remains visible.
 
-The pseudo-element is fixed behind normal positioned content. `.welcome` uses `position: relative`, while the logout form uses `position: fixed` and `z-index: 1` so it remains visible above the decorative layer.
+Pagination always includes the first and last page. When more than seven pages exist, JavaScript adds the current page and its neighbors with ellipses between separated ranges.
 
 ## Media queries
 
 ```css
-@media (max-width: 480px) {
-    .login-card { padding: 28px 22px; }
+@media (max-width: 700px) {
+    .signal-labels { display: none; }
+    .theme-toggle em { display: none; }
 }
 ```
 
-This rule applies only on narrow screens, reducing card padding so the form fits comfortably.
+This rule applies only on narrow screens, removing labels whose meaning is already communicated by color and accessible text while keeping the controls usable.

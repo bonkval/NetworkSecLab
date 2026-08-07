@@ -31,10 +31,10 @@ Then launch any of the three guided labs directly in the dashboard. No managed s
 
 ## What it demonstrates
 
-- Unified real-time dashboard with severity totals and filtering
+- Unified real-time dashboard with filtering and a persistent light/dark theme
 - Local registration and login with hashed passwords
-- Twelve-hour event trend and severity distribution charts
-- Ten-event pagination and confirmed retention-range deletion
+- Twelve-hour signal-intensity field, live posture indicator, and contextual analyst brief
+- Responsive event stream with wrapping columns, boundary-aware pagination, and confirmed retention-range deletion
 - SNMP v1/v2c UDP trap decoding and community allow-listing
 - Built-in `coldStart`, `linkDown`, `linkUp`, and authentication-failure simulations with raw BER packet inspection
 - SQLite event persistence with open, acknowledged, and resolved lifecycle states
@@ -45,6 +45,14 @@ Then launch any of the three guided labs directly in the dashboard. No managed s
 - Extensible console and generic webhook notifications
 - Responsive UI, CSRF protection, password hashing, and secure sessions
 - Unit and integration tests, GitHub Actions, Docker, and Python packaging metadata
+
+## Interface and accessibility
+
+The dashboard deliberately avoids a generic collection of KPI cards and chart-library defaults. Its signal field shows each of the last twelve hours as severity-weighted activity cells, while the live analyst brief converts the current event mix into a posture, signal-pressure score, and suggested next action.
+
+The light/dark control follows the operating-system preference on first use and saves the user's selection in browser storage. Theme changes use a radial reveal when the browser supports View Transitions, with a reduced-motion-safe fallback. Lab states, hover feedback, code samples, incident controls, and event rows all have theme-specific colors rather than reusing dark surfaces in light mode.
+
+The event stream uses fixed, wrapping columns so long messages remain inside the dashboard. Pagination always retains the first and last page and adds compact ellipses for large result sets.
 
 ## Cybersecurity investigation workflow
 
@@ -69,6 +77,10 @@ Browser dashboard ──────── Flask API ─────────
 ```
 
 The web process manages all demo services. The individual CLIs remain available for advanced or real-device use.
+
+### Receiver status
+
+`SNMP online · UDP 1162` means the local trap receiver successfully bound its UDP socket and is ready to accept simulated or lab-device traps. Port `1162` is the unprivileged lab alternative to the standard SNMP trap port `162`, which commonly requires elevated permissions. The status is operational—not decorative: the SNMP walkthrough sends a real localhost datagram through this receiver before the decoded event is persisted.
 
 ## Configuration
 

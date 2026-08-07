@@ -1,5 +1,7 @@
 # Viewer, Command-Line Options, Audio, Threads, and Shutdown
 
+> Scope: these commands remain useful for studying the original file-following pipeline. The normal `python start.py` demonstration runs the dashboard and managed SNMP receiver without requiring separate viewer or detector terminals.
+
 ## Why run modules with `-m`
 
 ```powershell

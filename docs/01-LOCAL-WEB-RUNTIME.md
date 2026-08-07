@@ -20,10 +20,12 @@ Activation temporarily adjusts environment variables, especially `PATH`, so `pyt
 pip install -r requirements.txt
 ```
 
-`pip` is Python’s package installer. `-r` means read requirements from a file. This project declares:
+`pip` is Python’s package installer. `-r` means read requirements from a file. This project declares Flask, Paramiko, and Waitress. Flask provides the web framework, Paramiko supports explicitly authorized SSH configuration, and Waitress serves the application without relying on Flask's development server:
 
 ```text
 Flask>=3.1,<4
+paramiko>=3.5,<5
+waitress>=3.0,<4
 ```
 
 That accepts Flask 3.1 or newer while excluding the potentially incompatible major version 4. Installing Flask also installs its declared dependencies, including Werkzeug and Jinja. The project imports those libraries at runtime; it does not copy their source into your application folders.
@@ -44,9 +46,13 @@ GET / HTTP/1.1
 Host: 127.0.0.1:5000
 ```
 
-Flask decides which Python function handles that path, runs the function, and sends an HTTP response containing HTML. The browser parses the HTML, requests the CSS and image, calculates the layout, and draws the page.
+Flask decides which Python function handles that path, runs the function, and sends an HTTP response containing HTML. The browser parses the HTML, requests the CSS and JavaScript, calculates the layout, and draws the page.
 
-## What happens when you run `python server.py`
+## What happens when you run `python start.py`
+
+`start.py` creates `.venv` if needed, hashes `requirements.txt`, installs dependencies only when that hash changes, and launches `server.py` with the environment's Python executable. You can run `python server.py` directly when the environment is already prepared.
+
+## What `server.py` does
 
 Python reads [server.py](../server.py) from top to bottom:
 
@@ -66,18 +72,17 @@ This calls the application factory. It builds and configures a Flask object, ini
 if __name__ == "__main__":
 ```
 
-Every Python module has a `__name__`. When a file is executed directly, Python sets it to `"__main__"`. When another file imports it, Python uses the module name instead. This guard prevents the development server from starting merely because a test imported `server.app`.
+Every Python module has a `__name__`. When a file is executed directly, Python sets it to `"__main__"`. When another file imports it, Python uses the module name instead. This guard prevents Waitress from starting merely because a test imported `server.app`.
 
 ```python
-app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)
+serve(app, host=host, port=port, threads=6)
 ```
 
-- `host="127.0.0.1"` accepts connections only from the same computer.
-- `port=5000` selects the TCP port.
-- `debug=False` disables the interactive debugger and automatic reload behavior.
-- `threaded=True` lets Flask handle multiple requests in separate threads.
+- `NETGUARD_HOST` defaults to `127.0.0.1`, accepting connections only from the same computer.
+- `NETGUARD_PORT` defaults to TCP `5000`.
+- Waitress runs six request threads and does not expose Flask's interactive debugger.
 
-Flask’s built-in server is convenient for a local PoC. It is not intended to be an internet-facing production server.
+Waitress is more appropriate than Flask's development server, but the surrounding educational application is still not intended to be exposed directly to the internet.
 
 ## URLs, paths, and routes
 
@@ -118,11 +123,9 @@ Python stays on the server side. The browser receives only the generated HTML, C
 The division is:
 
 ```text
-Server side: Python, Flask, SQLite, filesystem logging
-Client side: HTML rendering, CSS layout, built-in form validation
+Server side: Python, Flask, SQLite, UDP receiver, detection engine, filesystem logging
+Client side: HTML rendering, CSS layout, JavaScript labs, polling, pagination, and theme preference
 ```
-
-There is no custom JavaScript in this project.
 
 ## Static files versus templates
 
@@ -132,7 +135,7 @@ Templates contain Jinja expressions and must be rendered by Flask. Static files 
 app/templates/login.html       rendered by Jinja
 app/templates/dashboard.html   rendered by Jinja
 app/static/css/style.css       served directly
-app/static/images/background.jpg served directly
+app/static/js/theme.js            served directly
 ```
 
 Flask knows these directories because the app is created with:
@@ -154,8 +157,8 @@ For the login page:
 4. Jinja replaces template expressions
 5. Flask returns HTML
 6. Browser sees the stylesheet URL and requests it
-7. CSS references background.jpg, so the browser requests the image
-8. Browser renders the completed page
+7. Browser requests theme.js and restores the saved/system theme
+8. Browser renders the completed page and theme control
 ```
 
 HTTP is stateless: each request is separate. Sessions and cookies provide continuity, which is explained in lesson 4.

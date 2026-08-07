@@ -174,7 +174,7 @@ Selects a state of an existing element.
 ### Pseudo-element
 
 ```css
-.dashboard-page::before { content: ""; }
+.operations-page::before { content: ""; }
 ```
 
 Creates a stylable generated box.
