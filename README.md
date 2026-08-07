@@ -1,6 +1,6 @@
 # Python Network Security Lab
 
-Python Network Security Lab is Ced Vales's portfolio project for guarded SSH configuration previews, SNMP trap monitoring, brute-force login detection, incident management, and hardware-free simulation in one web interface.
+Python Network Security Lab combines guarded SSH configuration previews, SNMP trap monitoring, brute-force login detection, incident management, and hardware-free simulation in one web interface.
 
 ## One-command demo
 

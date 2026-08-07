@@ -133,4 +133,4 @@ Behind a reverse proxy, the direct connection may be the proxy. `ProxyFix` can t
 
 ## Security limitations
 
-This PoC does not include account lockout, MFA, rate limiting at the HTTP layer, encrypted transport, password-reset flows, user registration, audit-log signing, centralized log storage, or a production WSGI server. Those omissions are appropriate for a local learning demo but important to state in a portfolio explanation.
+This PoC does not include account lockout, MFA, rate limiting at the HTTP layer, encrypted transport, password-reset flows, user registration, audit-log signing, centralized log storage, or a production WSGI server. Those omissions are appropriate for a local learning demo but important to state in a project explanation.

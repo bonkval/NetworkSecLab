@@ -88,7 +88,7 @@ After each change, predict which process must restart. Python changes require se
 - An alert resets only its IP.
 - Malformed log lines do not crash the monitor.
 
-## Portfolio explanation
+## Project explanation
 
 Be accurate about what the project demonstrates:
 

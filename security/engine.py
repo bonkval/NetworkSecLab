@@ -1,4 +1,4 @@
-"""Local detection-rule engine for the portfolio security lab."""
+"""Local detection-rule engine for the network security lab."""
 
 from __future__ import annotations
 

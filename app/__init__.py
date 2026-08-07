@@ -58,9 +58,12 @@ def initialize_database(path: Path = DATABASE_PATH) -> None:
             connection.execute("ALTER TABLE users ADD COLUMN full_name TEXT NOT NULL DEFAULT ''")
         connection.execute(
             "INSERT OR IGNORE INTO users (email, password_hash, full_name) VALUES (?, ?, ?)",
-            ("ced@gmail.com", generate_password_hash("12345"), "Ced Vales"),
+            ("ced@gmail.com", generate_password_hash("12345"), "Demo Analyst"),
         )
-        connection.execute("UPDATE users SET full_name = ? WHERE email = ? AND full_name = ''", ("Ced Vales", "ced@gmail.com"))
+        connection.execute(
+            "UPDATE users SET full_name = ? WHERE email = ? AND full_name != ?",
+            ("Demo Analyst", "ced@gmail.com", "Demo Analyst"),
+        )
 
 
 def valid_email(value: str) -> bool:

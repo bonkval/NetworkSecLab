@@ -2,7 +2,7 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Network Security Lab · Access</title><script src="{{ url_for('static',filename='js/theme.js') }}"></script><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head>
 <body class="login-page">
 <main class="auth-shell">
-    <section class="auth-intro"><span class="owner-label">CED VALES · PORTFOLIO PROJECT</span><h1>Network<br>Security Lab</h1><p>A hands-on environment for network telemetry, authentication monitoring, and guarded device automation.</p><div class="auth-feature-list"><span><b>01</b> SNMP trap inspection</span><span><b>02</b> Brute-force detection</span><span><b>03</b> Configuration safety</span></div></section>
+    <section class="auth-intro"><span class="owner-label">HANDS-ON SECURITY LAB</span><h1>Network<br>Security Lab</h1><p>A hands-on environment for network telemetry, authentication monitoring, and guarded device automation.</p><div class="auth-feature-list"><span><b>01</b> SNMP trap inspection</span><span><b>02</b> Brute-force detection</span><span><b>03</b> Configuration safety</span></div></section>
     <section class="auth-panel">
         <div class="auth-tabs" role="tablist"><button type="button" data-auth-tab="login" class="{{ 'active' if request.args.get('mode') != 'register' else '' }}">Sign in</button><button type="button" data-auth-tab="register" class="{{ 'active' if request.args.get('mode') == 'register' else '' }}">Create account</button></div>
         {% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="message {{ category }}" role="alert">{{ message }}</div>{% endfor %}{% endwith %}
