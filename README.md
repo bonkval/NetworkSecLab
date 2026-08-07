@@ -2,6 +2,19 @@
 
 Python Network Security Lab combines guarded SSH configuration previews, SNMP trap monitoring, brute-force login detection, incident management, and hardware-free simulation in one web interface.
 
+## Screenshots
+<img width="1869" height="841" alt="image" src="https://github.com/user-attachments/assets/72de5f7d-e732-4d0e-beae-4338dbaf6bd7" />
+<img width="1868" height="862" alt="image" src="https://github.com/user-attachments/assets/819a7bd3-9a0c-4178-b9c9-50eec6c425ef" />
+<img width="1042" height="681" alt="image" src="https://github.com/user-attachments/assets/8652d1b3-22fd-457d-87c7-54170db50cb3" />
+<img width="760" height="479" alt="image" src="https://github.com/user-attachments/assets/f5b69471-df39-492f-8c35-0dd2f42d31f3" />
+<img width="1057" height="630" alt="image" src="https://github.com/user-attachments/assets/29daa108-c060-4633-a4f4-5f7b28a492dd" />
+<img width="1869" height="876" alt="image" src="https://github.com/user-attachments/assets/c9a8c2e0-ae97-44c2-86e4-b02ec1c4ef53" />
+<img width="1851" height="414" alt="image" src="https://github.com/user-attachments/assets/2cd39f43-33ce-481b-b429-4a083360baa5" />
+<img width="1868" height="811" alt="image" src="https://github.com/user-attachments/assets/f1536d9d-06de-4a62-9fc0-b61d4efaaf22" />
+<img width="1854" height="1004" alt="image" src="https://github.com/user-attachments/assets/f86a5da7-2e0e-439c-9b37-db25aecbba47" />
+<img width="1873" height="575" alt="image" src="https://github.com/user-attachments/assets/bf25b6f6-6b98-441c-9cff-98ee6d333afc" />
+
+
 ## One-command demo
 
 From PowerShell in the project directory:
